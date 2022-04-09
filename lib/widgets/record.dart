@@ -1,9 +1,9 @@
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sound_lite/flutter_sound.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 List saves = [];
@@ -63,13 +63,13 @@ class _RecordState extends State<Record>{
 }
 
 
-class SoundRecorder{
+class SoundRecorder {
   FlutterSoundRecorder? _audioRecorder;
   bool _isRecorderInitialized = false;
 
   bool get isRecording => _audioRecorder!.isRecording;
 
-  Future init() async{
+  Future init() async {
     _audioRecorder = FlutterSoundRecorder();
 
     final status = await Permission.microphone.request();
@@ -81,38 +81,41 @@ class SoundRecorder{
     _isRecorderInitialized = true;
   }
 
-  void dispose(){
+  void dispose() {
     if (!_isRecorderInitialized) return;
 
     _audioRecorder!.closeAudioSession();
     _audioRecorder = null;
     _isRecorderInitialized = false;
   }
-  
 
-  Future _record() async{
+  Future _record() async {
     if (!_isRecorderInitialized) return;
-    String filePath = DateTime.now().microsecondsSinceEpoch.toString() + '.aac';
-    saves.add(filePath);
-    await _audioRecorder!.startRecorder(toFile: filePath);
+    String name = DateTime
+        .now()
+        .microsecondsSinceEpoch
+        .toString() + '.aac';
+    final dir = await getApplicationDocumentsDirectory();
+    final file = '${dir.path}/$name';
+    saves.add(file);
+    debugPrint(file);
+    await _audioRecorder!.startRecorder(toFile: file);
   }
 
-  Future _stop() async{
+  Future _stop() async {
     if (!_isRecorderInitialized) return;
 
     await _audioRecorder!.stopRecorder();
   }
-  
-  
+
 
   Future toggleRecording() async {
-    if (_audioRecorder!.isStopped){
+    if (_audioRecorder!.isStopped) {
       await _record();
     }
-    else{
+    else {
       await _stop();
-
     }
   }
-
 }
+

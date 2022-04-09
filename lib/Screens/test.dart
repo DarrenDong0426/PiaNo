@@ -21,7 +21,7 @@ class Test extends StatefulWidget {
   State<StatefulWidget> createState() => _TestState();
 }
 
-class _TestState extends State<Test> {
+class _TestState extends State<Test> with TickerProviderStateMixin{
   late Timer _timer;
   int _start = 3;
   String verdict = "";
@@ -29,12 +29,24 @@ class _TestState extends State<Test> {
   int Point = 0;
   String note = "";
 
+
+  late AnimationController animation;
+  late Animation<double> _fadeInFadeOut;
+
   _TestState(){
     note = setNote();
     startTimer();}
 
   @override
   Widget build(BuildContext context) {
+    animation = AnimationController(vsync: this, duration: const Duration(milliseconds: 500),);
+    _fadeInFadeOut = Tween<double>(begin: 0.0, end: 1.0).animate(animation);
+    animation.forward();
+    animation.addStatusListener((status){
+      if(status == AnimationStatus.completed){
+        animation.reverse();
+      }
+    });
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeRight,
       DeviceOrientation.landscapeLeft,
@@ -81,8 +93,7 @@ class _TestState extends State<Test> {
           ),
           SizedBox(
             height: 20,
-            child: Center(child: AnimatedOpacity(opacity: _visible ? 1.0 : 0.0,
-              duration: const Duration(milliseconds: 10),
+            child: Center(child: FadeTransition(opacity: _fadeInFadeOut,
               child: Text(
                 "$verdict",
                 textAlign: TextAlign.center, style: TextStyle(fontSize: 20),
@@ -136,13 +147,12 @@ class _TestState extends State<Test> {
         Point++;
         _start = 3;
         note = setNote();
-        startTimer();
       });
     }
     else {
       setState(() {
         _visible = true;
-        verdict = 'Incorrect';
+        _timer.cancel();
         _showMyDialog();
       });
     }

@@ -35,22 +35,22 @@ class _CardviewState extends State<Cardview>{
     double space = MediaQuery.of(context).size.width;
     return Container(
       child: Row(
-          children: <Widget>[
-            SizedBox(
+        children: <Widget>[
+          SizedBox(
               height: 100 / 3,
               width: space / 5,
               child: ElevatedButton.icon(onPressed: () {_play();}, icon: Icon(Icons.play_arrow_rounded), label: Text(''),)),
-            SizedBox(
+          SizedBox(
               height: 100 / 3,
               width: space / 5,
               child: ElevatedButton.icon(onPressed: () {_pause();}, icon: Icon(Icons.pause), label: Text(''),)
-            ),
-            SizedBox(
+          ),
+          SizedBox(
               height: 100 / 3,
               width: space / 5,
               child: ElevatedButton.icon(onPressed: () {_delete(); setState(() {});}, icon: Icon(Icons.delete), label: Text(''),)
-            ),
-          ],
+          ),
+        ],
       ),
     );
   }
@@ -62,7 +62,7 @@ class _CardviewState extends State<Cardview>{
     }
     else{
       await audioPlayer!.startPlayer(
-      fromURI: recording,
+        fromURI: recording,
       );
     }
   }

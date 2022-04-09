@@ -22,12 +22,24 @@ class Learn extends StatefulWidget {
   State<StatefulWidget> createState() => _LearnState();
 }
 
-class _LearnState extends State<Learn> {
+class _LearnState extends State<Learn> with TickerProviderStateMixin {
   String verdict = "";
   bool _visible = true;
 
+  late AnimationController animation;
+  late Animation<double> _fadeInFadeOut;
+
+
   @override
   Widget build(BuildContext context) {
+    animation = AnimationController(vsync: this, duration: const Duration(milliseconds: 500),);
+    _fadeInFadeOut = Tween<double>(begin: 0.0, end: 1.0).animate(animation);
+    animation.forward();
+    animation.addStatusListener((status){
+      if(status == AnimationStatus.completed){
+        animation.reverse();
+       }
+    });
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeRight,
       DeviceOrientation.landscapeLeft,
@@ -66,8 +78,7 @@ class _LearnState extends State<Learn> {
           ),
           SizedBox(
             height: 20,
-            child: Center(child: AnimatedOpacity(opacity: _visible ? 1.0 : 0.0,
-              duration: const Duration(milliseconds: 10),
+            child: Center(child: FadeTransition(opacity: _fadeInFadeOut,
               child: Text(
                 "$verdict",
                 textAlign: TextAlign.center, style: TextStyle(fontSize: 20),
@@ -97,13 +108,11 @@ class _LearnState extends State<Learn> {
   void update(String s) {
     if (s == ('Correct')) {
       setState(() {
-        _visible = true;
         verdict = s;
       });
     }
     else {
       setState(() {
-        _visible = true;
         verdict = s;
       });
     }
