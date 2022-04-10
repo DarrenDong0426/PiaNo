@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sound_lite/flutter_sound.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:piano/Screens/menu.dart';
 
 List saves = [];
 final recorder = SoundRecorder();
@@ -40,12 +41,21 @@ class _RecordState extends State<Record>{
     final isRecording = recorder.isRecording;
     final icon = isRecording ? Icons.stop : Icons.mic;
     final text = isRecording ? 'Stop' : 'Start';
-    final primary = isRecording ? Colors.red : Colors.white;
+    final primary = isRecording ? Colors.red : Color(0xff84C318);
     final onPrimary = isRecording ? Colors.white : Colors.black;
     return Container(
-      child: Row(
+      child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            ElevatedButton.icon(
+              style: ElevatedButton.styleFrom(
+                minimumSize: const Size(175, 50),
+                primary: Color(0xff84C318),
+                onPrimary: Colors.black
+              ),
+              icon: Icon(Icons.home), label: Text("Home"),
+                onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => const Menu()),);}),
+            SizedBox(height: 10),
             ElevatedButton.icon(
               style: ElevatedButton.styleFrom(
                 minimumSize: const Size(175, 50),

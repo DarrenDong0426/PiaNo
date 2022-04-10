@@ -23,14 +23,32 @@ class _RecordingsState extends State<Recordings>{
       DeviceOrientation.portraitUp,
     ]);
     return Scaffold(
-      appBar: AppBar(title: Text("Recordings"),),
+      //appBar: AppBar(title: Text("Recordings"),),
       body: Column(
         children: <Widget>[
-          ElevatedButton(style:
+          SizedBox(width: 50, height: 10),
+          SizedBox(
+              height: 100,
+              width: 100,
+              child: Image.asset("assets/logo.png")
+          ),
+          SizedBox(width: 50, height: 20),
+          ElevatedButton.icon(
+              style: ElevatedButton.styleFrom(
+                  minimumSize: const Size(175, 50),
+                  primary: Color(0xff84C318),
+                  onPrimary: Colors.black
+              ),
+              icon: Icon(Icons.home), label: Text("Home"),
+              onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => const Menu()),);}),
+          /*ElevatedButton(style:
           ElevatedButton.styleFrom(
             minimumSize: const Size(100, 50),
             primary: Colors.white,
+
             onPrimary: Colors.black,), child: const Text("Menu"), onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => const Menu()),);}),
+           */
+
           Expanded(
             child: ListView.builder(
                 padding: const EdgeInsets.all(8),

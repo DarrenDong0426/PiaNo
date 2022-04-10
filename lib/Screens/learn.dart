@@ -32,7 +32,7 @@ class _LearnState extends State<Learn> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    animation = AnimationController(vsync: this, duration: const Duration(milliseconds: 500),);
+    animation = AnimationController(vsync: this, duration: const Duration(milliseconds: 1000),);
     _fadeInFadeOut = Tween<double>(begin: 0.0, end: 1.0).animate(animation);
     animation.forward();
     animation.addStatusListener((status){
@@ -52,9 +52,9 @@ class _LearnState extends State<Learn> with TickerProviderStateMixin {
         .height * 0.33;
     return Scaffold(
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+        //crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          SizedBox(
+          /*SizedBox(
             height: space / 2,
             child: ElevatedButton(style:
             ElevatedButton.styleFrom(
@@ -66,9 +66,24 @@ class _LearnState extends State<Learn> with TickerProviderStateMixin {
                   Navigator.push(context,
                     MaterialPageRoute(builder: (context) => const Menu()),);
                 }),
-          ),
+          ),*/
+          SizedBox(width: 50, height: 10),
           SizedBox(
-            height: space / 2 - 20 ,
+              height: 100,
+              width: 100,
+              child: Image.asset("assets/logo.png")
+          ),
+          SizedBox(width: 50, height: 20),
+          ElevatedButton.icon(
+              style: ElevatedButton.styleFrom(
+                  minimumSize: const Size(175, 50),
+                  primary: Color(0xff84C318),
+                  onPrimary: Colors.black
+              ),
+              icon: Icon(Icons.home), label: Text("Home"),
+              onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => const Menu()),);}),
+          SizedBox(
+            height: (space / 2) - 20,
             child: Center(
               child: Text(
               setNote(),
@@ -90,7 +105,7 @@ class _LearnState extends State<Learn> with TickerProviderStateMixin {
               height: MediaQuery
                   .of(context)
                   .size
-                  .height - space,
+                  .height - space - 51.9,
               child: ModifiedPiano(update: update)
           )
         ],

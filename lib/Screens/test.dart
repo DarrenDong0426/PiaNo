@@ -35,7 +35,9 @@ class _TestState extends State<Test> with TickerProviderStateMixin{
 
   _TestState(){
     note = setNote();
-    startTimer();}
+    //_showStart();
+    startTimer();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,9 +61,9 @@ class _TestState extends State<Test> with TickerProviderStateMixin{
         .height * 0.33;
     return Scaffold(
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+        //crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          SizedBox(
+          /*SizedBox(
             height: space / 2,
             child: ElevatedButton(style:
             ElevatedButton.styleFrom(
@@ -73,7 +75,22 @@ class _TestState extends State<Test> with TickerProviderStateMixin{
                   Navigator.push(context,
                     MaterialPageRoute(builder: (context) => const Menu()),);
                 }),
+          ),*/
+          SizedBox(width: 50, height: 10),
+          SizedBox(
+              height: 100,
+              width: 100,
+              child: Image.asset("assets/logo.png")
           ),
+          SizedBox(width: 50, height: 20),
+          ElevatedButton.icon(
+              style: ElevatedButton.styleFrom(
+                  minimumSize: const Size(175, 50),
+                  primary: Color(0xff84C318),
+                  onPrimary: Colors.black
+              ),
+              icon: Icon(Icons.home), label: Text("Home"),
+              onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => const Menu()),);}),
           SizedBox(
             height: space / 2 - 20 ,
             child: Row(
@@ -83,9 +100,11 @@ class _TestState extends State<Test> with TickerProviderStateMixin{
                     '$note', textAlign: TextAlign.left, style: TextStyle(fontSize: 90),
                   ),
                   Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Text('Timer: $_start', textAlign: TextAlign.right, style: TextStyle(fontSize: 30)),
-                      Text(Point.toString(), textAlign: TextAlign.right, style: TextStyle(fontSize: 30)),
+                      SizedBox(height: 5),
+                      Text('Timer: $_start', textAlign: TextAlign.right, style: TextStyle(fontSize: 25)),
+                      Text('Points:' + Point.toString(), textAlign: TextAlign.right, style: TextStyle(fontSize: 25)),
                     ]
                   )
                 ],
@@ -105,7 +124,7 @@ class _TestState extends State<Test> with TickerProviderStateMixin{
               height: MediaQuery
                   .of(context)
                   .size
-                  .height - space,
+                  .height - space - 51.9,
               child: ModifiedPiano(update: update)
           )
         ],
@@ -166,17 +185,53 @@ class _TestState extends State<Test> with TickerProviderStateMixin{
         return AlertDialog(
           content: SingleChildScrollView(
             child: ListBody(
+
               children: <Widget>[
-                Text('GAME OVER', textAlign: TextAlign.center),
-                Text('Score: $Point', textAlign: TextAlign.center),
+                Text('GAME OVER', textAlign: TextAlign.center, style: TextStyle(fontSize: 25),),
+                SizedBox(height: 5),
+                Text('Score: $Point', textAlign: TextAlign.center, style: TextStyle(fontSize: 25)),
               ],
             ),
           ),
           actions: <Widget>[
             TextButton(
+              style: TextButton.styleFrom(
+                primary: Color(0xff84C318),
+              ),
                 onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => const Test()),);} , child: const Text('Retry')),
             TextButton(
+                style: TextButton.styleFrom(
+                  primary: Color(0xff84C318),
+                ),
               onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => const Menu()),);} , child: const Text('Menu')),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _showStart() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: SingleChildScrollView(
+            child: ListBody(
+
+              children: <Widget>[
+                SizedBox(height: 5),
+                Text('Directions: Click on the corresponding note to the one displayed on the screen to get a point. An incorrect answer will end the game.', textAlign: TextAlign.center, style: TextStyle(fontSize: 15)),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+                style: TextButton.styleFrom(
+                  primary: Color(0xff84C318),
+                ),
+                onPressed: () {Navigator.of(context, rootNavigator: true).pop('dialog'); startTimer();} , child: const Text('Start')),
+
           ],
         );
       },

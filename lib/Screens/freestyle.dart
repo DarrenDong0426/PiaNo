@@ -34,12 +34,29 @@ class _FreestyleState extends State<Freestyle>{
         children: <Widget>[
           SizedBox(
               height: space / 2,
-              child: ElevatedButton(style:
+              child: Column(
+                children: <Widget>[
+                  SizedBox(width: 50, height: 10),
+                  SizedBox(
+                    height: 100,
+                    width: 100,
+                    child: Image.asset("assets/logo.png")
+                  ),
+                ],
+              )
+              /*child: IconButton(
+                icon: Image.asset("assets/logo.png"),
+                iconSize: 200,
+                  onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => const Menu()),);}
+              )*/
+
+              /*child: ElevatedButton(style:
                 ElevatedButton.styleFrom(
-                  minimumSize: const Size(100, 25),
+                  //minimumSize: const Size(100, 25),
                   primary: Colors.white,
-                  onPrimary: Colors.black,), child: const Text("Menu"), onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => const Menu()),);}),
+                  onPrimary: Colors.black,), child: const Text("Menu"), onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => const Menu()),);}),*/
           ),
+
           SizedBox(
               height: space / 2,
               child: const Record()
